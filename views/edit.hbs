@@ -1,0 +1,43 @@
+<h1>Редактирование товара {{good.name}}</h1>
+
+<div class="row">
+  <form class="col s12" action="/goods/edit" method="POST">
+    <div class="row">
+      <div class="input-field col s4">
+        <input placeholder="Кеды" name="name" id="name" type="text" class="validate" value="{{good.name}}" required>
+        <label for="name">Название</label>
+        <span class="helper-text" data-error="Введите название"></span>
+      </div>
+
+      <div class="input-field col s4">
+        <input placeholder="0" name="amount" id="amount" type="text" class="validate" value="{{good.amount}}" required>
+        <label for="amount">Количество</label>
+        <span class="helper-text" data-error="Введите количество"></span>
+      </div>
+
+      <div class="input-field col s4">
+        <input placeholder="0" name="price" id="price" type="text" class="validate" value="{{good.price}}" required>
+        <label for="price">Цена</label>
+        <span class="helper-text" data-error="Введите цену"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col m12">
+        <input placeholder="Введите ссылку на изображение" name="image" id="image" type="text" class="validate" value="{{good.image}}" required>
+        <label for="image">Изображение</label>
+        <span class="helper-text" data-error="Введите ссылку на изображение"></span>
+      </div>
+    </div>
+
+    <input type="hidden" name="id" value="{{good.id}}">
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

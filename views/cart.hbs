@@ -1,0 +1,30 @@
+<h1>Корзина</h1>
+
+{{#if items.length}}
+<table class="js-cart-table">
+  <tr>
+    <th>Название</th>
+    <th>Количество</th>
+    <th>Цена</th>
+    <th align="right">Действие</th>
+  </tr>
+  {{#each items}}
+  <tr>
+    <td>{{this.name}}</td>
+    <td>{{this.amount}}</td>
+    <td>{{this.price}}</td>
+    <td align="right">
+      <button class="btn" data-id="{{this.id}}">Удалить</button>
+    </td>
+  </tr>
+  {{/each}}
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td align="right" colspan="4">Итог - {{total}}</td>
+  </tr>
+</table>
+{{else}}
+<p>Корзина пуста</p>
+{{/if}}

@@ -1,0 +1,42 @@
+<h1>Товары</h1>
+
+<ul>
+  {{#if goods.length}}
+  {{#each goods}}
+  <div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          {{#if this.image}}
+          <img src="{{this.image}}">
+          {{else}}
+          <img src="https://altay-shop.com/wp-content/uploads/2014/02/shop-placeholder.png">
+          {{/if}}
+          <span class="card-title">{{ this.name }}</span>
+        </div>
+        <div class="card-content">
+          <div>Количество: {{this.amount}}</div>
+          <div>Цена: {{this.price}}</div>
+        </div>
+        <div class="card-action">
+          <a href="/goods/{{this.id}}">Открыть</a>
+          <a href="/goods/{{this.id}}/edit?allow=true">Редактировать</a>
+          <form action="/cart/add" method="POST">
+            <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+            <button>В Корзину</button>
+          </form>
+          <form action="/goods/remove" method="POST">
+            <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+            <button>Удалить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  {{else}}
+  <div>
+    Товаров пока нет <a href="/new-good">Создать</a>
+  </div>
+  {{/if}}
+</ul>

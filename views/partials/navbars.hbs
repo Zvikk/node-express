@@ -1,0 +1,48 @@
+<nav>
+  <div class="nav-wrapper">
+    <div class="container">
+      <a href="/" class="brand-logo">Express app</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {{#if isHome}}
+        <li class="active">
+          <a href="/">Главная</a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/">Главная</a>
+        </li>
+        {{/if}}
+
+        {{#if isGoods}}
+        <li class="active">
+          <a href="/goods">Товары</a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/goods">Товары</a>
+        </li>
+        {{/if}}
+
+        {{#if isAdd}}
+        <li class="active">
+          <a href="/new-good">Добавить товар</a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/new-good">Добавить товар</a>
+        </li>
+        {{/if}}
+
+        {{#if isCart}}
+        <li class="active">
+          <a href="/cart">Корзина</a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/cart">Корзина</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
