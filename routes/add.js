@@ -11,9 +11,14 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, amount, price, image } = req.body;
-  const good = new Good(name, amount, price, image);
-  await good.save();
-  res.redirect('/goods');
+  const good = new Good({ name, amount, price, image });
+
+  try {
+    await good.save();
+    res.redirect('/goods');
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 module.exports = router;
