@@ -11,8 +11,7 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, amount, price, image } = req.body;
-  const good = new Good({ name, amount, price, image });
-
+  const good = new Good({ name, amount, price, image, userId: req.user }); 
   try {
     await good.save();
     res.redirect('/goods');

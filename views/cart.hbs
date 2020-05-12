@@ -11,10 +11,10 @@
   {{#each items}}
   <tr>
     <td>{{this.name}}</td>
-    <td>{{this.amount}}</td>
+    <td>{{this.count}}</td>
     <td>{{this.price}}</td>
     <td align="right">
-      <button class="btn" data-id="{{this.id}}">Удалить</button>
+      <button class="btn" data-id="{{this._id}}">Удалить</button>
     </td>
   </tr>
   {{/each}}

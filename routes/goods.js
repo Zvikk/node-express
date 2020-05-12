@@ -3,8 +3,9 @@ const router = Router();
 const Good = require('../models/Good');
 
 router.get('/', async (req, res) => {
-  const goods = await Good.find();
+  const goods = await Good.find().populate('userId', 'email name');
 
+  console.log('goods', goods);
   res.render('goods', {
     title: 'Товары',
     isGoods: true,

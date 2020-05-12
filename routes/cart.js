@@ -3,26 +3,42 @@ const Cart = require('../models/Cart');
 const Good = require('../models/Good');
 const router = Router();
 
+function mapCartItems(cart) {
+  return cart.items.map((good) => ({
+    count: good.count,
+    ...good.goodId._doc,
+  }));
+}
+
+function computePrice(goods) {
+  return goods.reduce((acc, current) => acc + current.count * current.price, 0);
+}
+
 router.get('/', async (req, res) => {
-  const cart = await Cart.getAll();
+  const user = await req.user
+    .populate('cart.items.goodId', 'name price image')
+    .execPopulate();
+
+  const items = mapCartItems(user.cart);
+
   res.render('cart', {
-    title: "Коризна",
+    title: 'Корзина',
     isCart: true,
-    items: cart.items,
-    total: cart.price
-  })
-})
+    items,
+    total: computePrice(items),
+  });
+});
 
 router.post('/add', async (req, res) => {
-  const good = await Good.getById(req.body.id);
-  await Cart.add(good);
+  const good = await Good.findById(req.body.id);
+  await req.user.addToCart(good);
   res.redirect('/goods');
-})
+});
 
 router.delete('/remove/:id', async (req, res) => {
-  await Cart.removeById(req.params.id);
+  await req.user.removeFromCart(req.params.id);
   res.status(200);
   res.end();
-})
+});
 
 module.exports = router;

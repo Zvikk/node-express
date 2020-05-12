@@ -14,7 +14,11 @@ const good = new Schema({
   },
   image: {
     type: String
-  }
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
 })
 
 module.exports = model('Good', good);

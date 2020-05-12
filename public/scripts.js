@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.tagName === 'BUTTON') {
         const id = e.target.dataset.id;
         fetch('/cart/remove/' + id, { method: 'delete' })
-          .then(() => location.reload());
+          /* .then(() => location.reload()); */
       }
     });
   }
