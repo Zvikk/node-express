@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const router = Router();
 const Good = require('../models/Good');
+const guard = require('../middleware/routerGuard');
+const router = Router();
 
 router.get('/', async (req, res) => {
   const goods = await Good.find().populate('userId', 'email name');
 
-  console.log('goods', goods);
   res.render('goods', {
     title: 'Товары',
     isGoods: true,
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
   } catch (error) {}
 });
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', guard, async (req, res) => {
   if (!req.query.allow) {
     res.redirect('/');
     return;
@@ -37,7 +37,7 @@ router.get('/:id/edit', async (req, res) => {
   });
 });
 
-router.post('/edit', async (req, res) => {
+router.post('/edit', guard, async (req, res) => {
   const { id } = req.body;
   delete req.body.id;
 
@@ -45,7 +45,7 @@ router.post('/edit', async (req, res) => {
   res.redirect('/goods');
 });
 
-router.post('/remove', async (req, res) => {
+router.post('/remove', guard, async (req, res) => {
   await Good.deleteOne({_id: req.body.id});
 
   res.redirect('/goods');

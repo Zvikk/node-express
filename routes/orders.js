@@ -1,16 +1,17 @@
 const { Router } = require('express');
 const Order = require('../models/Order');
+const guard = require('../middleware/routerGuard');
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', guard, async (req, res) => {
   try {
-    const orders = await Order.find({'user.userId': req.user._id});
+    const orders = await Order.find({ 'user.userId': req.user._id });
 
     res.render('orders', {
       title: 'Мои заказы',
-      orders: orders.map(o => ({
+      orders: orders.map((o) => ({
         ...o._doc,
-        total: o.goods.reduce((acc, g) => acc + g.good.price * g.count, 0)
+        total: o.goods.reduce((acc, g) => acc + g.good.price * g.count, 0),
       })),
       isOrders: true,
     });
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', guard, async (req, res) => {
   try {
     const user = await req.user.populate('cart.items.goodId').execPopulate();
     const goods = user.cart.items.map((i) => ({

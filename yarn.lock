@@ -70,6 +70,15 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+archetype@0.10.x:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/archetype/-/archetype-0.10.2.tgz#9ec23fbffef5367da9c67b6b63bf74284bf54bef"
+  integrity sha512-n3RPIiMYM+rsKWbv1HYJlAcqXg118c4wN0e0LWK700g5TCcvS1ZzskMS/4FOBiplQzBOcN+uTIqEfs/ePPhpAg==
+  dependencies:
+    lodash.set "4.x"
+    mpath "0.5.1"
+    standard-error "1.1.0"
+
 array-flatten@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
@@ -249,6 +258,14 @@ configstore@^5.0.1:
     unique-string "^2.0.0"
     write-file-atomic "^3.0.0"
     xdg-basedir "^4.0.0"
+
+connect-mongodb-session@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/connect-mongodb-session/-/connect-mongodb-session-2.3.1.tgz#538b487c91e1a019293d845b51f9094cb0e54a14"
+  integrity sha512-lVgJkdXwvxuFBqFGMinV7sCulHXBiP0Xiw4Q205R+V16EztMQ9jWmhP6p6MO+mr0BtR6XVgfAvCXvQlCxl97JQ==
+  dependencies:
+    archetype "0.10.x"
+    mongodb "3.5.x"
 
 content-disposition@0.5.3:
   version "0.5.3"
@@ -781,6 +798,11 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
+lodash.set@4.x:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
+
 lowercase-keys@^1.0.0, lowercase-keys@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.1.tgz#6f9e30b47084d971a7c820ff15a6c5167b74c26f"
@@ -852,7 +874,7 @@ minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-mongodb@3.5.7:
+mongodb@3.5.7, mongodb@3.5.x:
   version "3.5.7"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.7.tgz#6dcfff3bdbf67a53263dcca1647c265eea1d065d"
   integrity sha512-lMtleRT+vIgY/JhhTn1nyGwnSMmJkJELp+4ZbrjctrnBxuLbj6rmLuJFz8W2xUzUqWmqoyVxJLYuC58ZKpcTYQ==
@@ -886,6 +908,11 @@ mongoose@^5.9.13:
     safe-buffer "5.1.2"
     sift "7.0.1"
     sliced "1.0.1"
+
+mpath@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.5.1.tgz#17131501f1ff9e6e4fbc8ffa875aa7065b5775ab"
+  integrity sha512-H8OVQ+QEz82sch4wbODFOz+3YQ61FYz/z3eJ5pIdbMEaUzDqA268Wd+Vt4Paw9TJfvDgVKaayC0gBzMIw2jhsg==
 
 mpath@0.7.0:
   version "0.7.0"
@@ -1273,6 +1300,11 @@ sparse-bitfield@^3.0.3:
   integrity sha1-/0rm5oZWBWuks+eSqzM004JzyhE=
   dependencies:
     memory-pager "^1.0.2"
+
+standard-error@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/standard-error/-/standard-error-1.1.0.tgz#23e5168fa1c0820189e5812701a79058510d0d34"
+  integrity sha1-I+UWj6HAggGJ5YEnAaeQWFENDTQ=
 
 "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
