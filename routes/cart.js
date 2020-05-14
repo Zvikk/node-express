@@ -38,7 +38,7 @@ router.post('/add', async (req, res) => {
 router.delete('/remove/:id', async (req, res) => {
   await req.user.removeFromCart(req.params.id);
   res.status(200);
-  res.end();
+  res.render('cart');
 });
 
 module.exports = router;

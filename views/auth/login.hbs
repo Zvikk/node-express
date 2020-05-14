@@ -1,0 +1,63 @@
+<div class="row login">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s6"><a class="active" href="#login">Вход</a></li>
+      <li class="tab col s6"><a href="#register">Регистрация</a></li>
+    </ul>
+  </div>
+  <div id="login" class="col s6 offset-s3">
+    <h1>Вход</h1>
+    <form class="" action="/new-good" method="POST">
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="example@mai.ru" name="email" id="email" type="text" class="validate" required>
+          <label for="email">E-mail</label>
+          <span class="helper-text" data-error="Введите E-mail"></span>
+        </div>
+
+        <div class="input-field col s6">
+          <input placeholder="0" name="password" id="password" type="text" class="validate" required>
+          <label for="password">Пароль</label>
+          <span class="helper-text" data-error="Введите пароль"></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Войти</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="register" class="col s6 offset-s3">
+    <h1>Регистрация</h1>
+    <form class="" action="/new-good" method="POST">
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Имя" name="name" id="name" type="text" class="validate" required>
+          <label for="name">Имя</label>
+          <span class="helper-text" data-error="Введите имя"></span>
+        </div>
+
+        <div class="input-field col s6">
+          <input placeholder="example@mai.ru" name="remail" id="remail" type="text" class="validate" required>
+          <label for="remail">E-mail</label>
+          <span class="helper-text" data-error="Введите E-mail"></span>
+        </div>
+
+        <div class="input-field col s6">
+          <input placeholder="0" name="rpassword" id="rpassword" type="text" class="validate" required>
+          <label for="rpassword">Пароль</label>
+          <span class="helper-text" data-error="Введите пароль"></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Регистрация</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

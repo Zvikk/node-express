@@ -2,3 +2,20 @@
   padding: 0;
   margin: 0;
 }
+
+.card-action {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  flex-wrap: wrap;
+}
+
+.card-action a,
+.card-action button {
+  margin: 8px 8px 0 0;
+}
+
+.login {
+  margin-top: 20px;
+  
+}

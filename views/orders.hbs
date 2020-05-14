@@ -1,0 +1,21 @@
+<h1>Мои заказы</h1>
+<div class="row">
+  {{#each orders}}
+    <div class="col l3">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">Заказ</div>
+          <div>Автор: {{this.user.name}}</div>
+          <div>Сумма: {{this.total}}</div>
+
+          <ul>
+            {{#each this.goods}}
+              <div>{{this.good.name}} - {{this.count}} ({{this.good.price}})</div>
+            {{/each}}
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

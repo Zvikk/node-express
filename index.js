@@ -11,7 +11,10 @@ const homeRouter = require('./routes/home');
 const goodsRouter = require('./routes/goods');
 const addRouter = require('./routes/add');
 const cartRouter = require('./routes/cart');
+const ordersRouter = require('./routes/orders');
+const authRouter = require('./routes/auth');
 const User = require('./models/User');
+
 
 const hbs = expressHandlebars.create({
   defaultLayout: 'main',
@@ -25,7 +28,6 @@ app.use(async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log('error', error);
   }
 });
 
@@ -38,6 +40,8 @@ app.use('/', homeRouter);
 app.use('/goods', goodsRouter);
 app.use('/new-good', addRouter);
 app.use('/cart', cartRouter);
+app.use('/orders', ordersRouter);
+app.use('/auth', authRouter);
 
 async function start() {
   try {

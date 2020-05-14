@@ -25,6 +25,10 @@
     <td align="right" colspan="4">Итог - {{total}}</td>
   </tr>
 </table>
+
+<form action="/orders" method="POST" style="margin-top: 16px">
+  <button class="btn">Оформить заказ</button>
+</form>
 {{else}}
 <p>Корзина пуста</p>
 {{/if}}

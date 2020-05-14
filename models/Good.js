@@ -21,4 +21,13 @@ const good = new Schema({
   },
 })
 
+good.method('toClient', function() {
+  const good = this.toObject();
+
+  good.id = good._id;
+  delete good._id;
+
+  return good;
+})
+
 module.exports = model('Good', good);
