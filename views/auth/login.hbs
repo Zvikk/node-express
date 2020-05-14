@@ -7,7 +7,7 @@
   </div>
   <div id="login" class="col s6 offset-s3">
     <h1>Вход</h1>
-    <form class="" action="/new-good" method="POST">
+    <form class="" action="/auth/login" method="POST">
       <div class="row">
         <div class="input-field col s6">
           <input placeholder="example@mai.ru" name="email" id="email" type="text" class="validate" required>
@@ -32,10 +32,10 @@
 
   <div id="register" class="col s6 offset-s3">
     <h1>Регистрация</h1>
-    <form class="" action="/new-good" method="POST">
+    <form class="" action="/auth/registration" method="POST">
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="Имя" name="name" id="name" type="text" class="validate" required>
+          <input placeholder="Имя" name=" name" id="name" type="text" class="validate" required>
           <label for="name">Имя</label>
           <span class="helper-text" data-error="Введите имя"></span>
         </div>

@@ -23,34 +23,49 @@
         </li>
         {{/if}}
 
-        {{#if isAdd}}
-        <li class="active">
-          <a href="/new-good">Добавить товар</a>
-        </li>
-        {{else}}
-        <li>
-          <a href="/new-good">Добавить товар</a>
-        </li>
-        {{/if}}
+        {{#if isAuth}}
+          {{#if isAdd}}
+          <li class="active">
+            <a href="/new-good">Добавить товар</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/new-good">Добавить товар</a>
+          </li>
+          {{/if}}
 
-        {{#if isCart}}
-        <li class="active">
-          <a href="/cart">Корзина</a>
-        </li>
-        {{else}}
-        <li>
-          <a href="/cart">Корзина</a>
-        </li>
-        {{/if}}
+          {{#if isCart}}
+          <li class="active">
+            <a href="/cart">Корзина</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/cart">Корзина</a>
+          </li>
+          {{/if}}
 
-        {{#if isOrders}}
-        <li class="active">
-          <a href="/orders">Заказы</a>
-        </li>
+          {{#if isOrders}}
+          <li class="active">
+            <a href="/orders">Заказы</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/orders">Заказы</a>
+          </li>
+          {{/if}}
+          <li>
+            <a href="/auth/logout">Выйти</a>
+          </li>
         {{else}}
-        <li>
-          <a href="/orders">Заказы</a>
-        </li>
+          {{#if isAuth}}
+          <li class="active">
+            <a href="/auth">Войти</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/auth">Войти</a>
+          </li>
+          {{/if}}
         {{/if}}
       </ul>
     </div>

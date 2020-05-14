@@ -5,6 +5,7 @@ const {
   allowInsecurePrototypeAccess,
 } = require('@handlebars/allow-prototype-access');
 const mongoose = require('mongoose');
+const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const homeRouter = require('./routes/home');
@@ -15,6 +16,7 @@ const ordersRouter = require('./routes/orders');
 const authRouter = require('./routes/auth');
 const User = require('./models/User');
 
+const authMiddleware = require('./middleware/authChecker');
 
 const hbs = expressHandlebars.create({
   defaultLayout: 'main',
@@ -22,20 +24,21 @@ const hbs = expressHandlebars.create({
   handlebars: allowInsecurePrototypeAccess(Handlebars),
 });
 
-app.use(async (req, res, next) => {
-  try {
-    const user = await User.findById('5eb9c88dad17481d51c65d77');
-    req.user = user;
-    next();
-  } catch (error) {
-  }
-});
-
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: 'some secret string',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(authMiddleware);
+
 app.use('/', homeRouter);
 app.use('/goods', goodsRouter);
 app.use('/new-good', addRouter);
@@ -53,20 +56,6 @@ async function start() {
       useUnifiedTopology: true,
       useFindAndModify: true,
     });
-
-    const candidate = await User.findOne();
-
-    if (!candidate) {
-      const user = new User({
-        email: 'zvikktor@yandex.ru',
-        name: 'Zvikk',
-        password: '11111111',
-        cart: {
-          items: [],
-        },
-      });
-      await user.save();
-    }
 
     app.listen(PORT, () => {
       console.log('server was running');
