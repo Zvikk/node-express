@@ -24,10 +24,12 @@
           <a class="btn" href="/goods/{{this.id}}/edit?allow=true">Редактировать</a>
           <form action="/cart/add" method="POST">
             <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+            <input type="hidden" name="_csrf" value={{@root.csrf}}>
             <button class="btn">В Корзину</button>
           </form>
           <form action="/goods/remove" method="POST">
             <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+            <input type="hidden" name="_csrf" value={{@root.csrf}}>
             <button class="btn">Удалить</button>
           </form>
           {{/if}}

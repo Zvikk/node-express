@@ -7,6 +7,8 @@ const {
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
+const flash = require('connect-flash');
 const userMiddleware = require('./middleware/user');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,7 +47,8 @@ app.use(
     store
   })
 );
-
+app.use(csrf());
+app.use(flash());
 app.use(authMiddleware);
 app.use(userMiddleware);
 app.use('/', homeRouter);

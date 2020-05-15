@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (tabs) {
     const instance = M.Tabs.init(tabs, {});
+    /* instance.tabs(); */
   }
 
   if (cartTable) {

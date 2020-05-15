@@ -7,6 +7,15 @@
   </div>
   <div id="login" class="col s6 offset-s3">
     <h1>Вход</h1>
+    {{#if loginError}}
+    <div class="row">
+      <div class="col">
+        <p class="alert">
+          {{loginError}}
+        </p>
+      </div>
+    </div>
+    {{/if}}
     <form class="" action="/auth/login" method="POST">
       <div class="row">
         <div class="input-field col s6">
@@ -22,6 +31,8 @@
         </div>
       </div>
 
+      <input type="hidden" name="_csrf" value={{csrf}}>
+
       <div class="row">
         <div class="col">
           <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Войти</button>
@@ -32,6 +43,15 @@
 
   <div id="register" class="col s6 offset-s3">
     <h1>Регистрация</h1>
+    {{#if registerError}}
+    <div class="row">
+      <div class="col">
+        <p class="alert">
+          {{registerError}}
+        </p>
+      </div>
+    </div>
+    {{/if}}
     <form class="" action="/auth/register" method="POST">
       <div class="row">
         <div class="input-field col s12">
@@ -52,6 +72,8 @@
           <span class="helper-text" data-error="Введите пароль"></span>
         </div>
       </div>
+
+      <input type="hidden" name="_csrf" value={{csrf}}>
 
       <div class="row">
         <div class="col">
