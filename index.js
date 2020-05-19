@@ -18,8 +18,7 @@ const addRouter = require('./routes/add');
 const cartRouter = require('./routes/cart');
 const ordersRouter = require('./routes/orders');
 const authRouter = require('./routes/auth');
-
-const MONGODB_URI = 'mongodb+srv://zvikk:81m5st5w7f2f1CIQ@cluster0-r2hgp.mongodb.net/node-shop';
+const keys = require('./keys');
 
 const authMiddleware = require('./middleware/authChecker');
 
@@ -31,7 +30,7 @@ const hbs = expressHandlebars.create({
 
 const store = new MongoStore({
   collection: 'sessions',
-  uri: MONGODB_URI
+  uri: keys.MONGODB_URI
 })
 
 app.engine('hbs', hbs.engine);
@@ -41,7 +40,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: 'some secret string',
+    secret: keys.sessionSecret,
     resave: false,
     saveUninitialized: false,
     store
@@ -60,10 +59,7 @@ app.use('/auth', authRouter);
 
 async function start() {
   try {
-    const url =
-      'mongodb+srv://zvikk:81m5st5w7f2f1CIQ@cluster0-r2hgp.mongodb.net/node-shop';
-
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(keys.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: true,
