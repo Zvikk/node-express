@@ -40,7 +40,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: keys.sessionSecret,
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store
