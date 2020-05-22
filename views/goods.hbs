@@ -21,17 +21,23 @@
         <div class="card-action">
           <a class="btn" href="/goods/{{this.id}}">Открыть</a>
           {{#if @root.isAuth}}
-          <a class="btn" href="/goods/{{this.id}}/edit?allow=true">Редактировать</a>
-          <form action="/cart/add" method="POST">
-            <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
-            <input type="hidden" name="_csrf" value={{@root.csrf}}>
-            <button class="btn">В Корзину</button>
-          </form>
-          <form action="/goods/remove" method="POST">
-            <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
-            <input type="hidden" name="_csrf" value={{@root.csrf}}>
-            <button class="btn">Удалить</button>
-          </form>
+            {{#iseq userId._id @root.userId}}
+              <a class="btn" href="/goods/{{this.id}}/edit">Редактировать</a>
+            {{/iseq}}
+
+            <form action="/cart/add" method="POST">
+              <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+              <input type="hidden" name="_csrf" value={{@root.csrf}}>
+              <button class="btn">В Корзину</button>
+            </form>
+
+            {{#iseq userId._id @root.userId}}
+              <form action="/goods/remove" method="POST">
+                <input type="hidden" value="{{this.id}}" name="id" id="{{this.id}}">
+                <input type="hidden" name="_csrf" value={{@root.csrf}}>
+                <button class="btn">Удалить</button>
+              </form>
+            {{/iseq}}
           {{/if}}
         </div>
       </div>

@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
   res.render('goods', {
     title: 'Товары',
     isGoods: true,
+    userId: req.user ? req.user._id.toString() : null,
     goods,
   });
 });
@@ -26,31 +27,45 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/:id/edit', guard, async (req, res) => {
-  if (!req.query.allow) {
-    res.redirect('/');
-    return;
+  try {
+    const good = await Good.findById(req.params.id);
+    if (good.userId.toString() != req.user._id.toString()) {
+      return res.redirect('/goods')
+    }
+  
+    res.render('edit', {
+      title: `Редактирование товара ${good.name}`,
+      good,
+    });  
+  } catch (error) {
+    console.log('error', error);
   }
-
-  const good = await Good.findById(req.params.id);
-
-  res.render('edit', {
-    title: `Редактирование товара ${good.name}`,
-    good,
-  });
 });
 
 router.post('/edit', guard, async (req, res) => {
   const { id } = req.body;
   delete req.body.id;
-
-  await Good.findByIdAndUpdate(id, req.body);
+  const good = await Good.findById(id)
+  if (req.user._id.toString() != good.userId.toString()) {
+    return res.redirect('/goods');
+  }
+  await good.updateOne(id, req.body);
   res.redirect('/goods');
 });
 
 router.post('/remove', guard, async (req, res) => {
-  await Good.deleteOne({_id: req.body.id});
+  try {
+    const good = await Good.findById(req.body.id);
 
-  res.redirect('/goods');
+    if (req.user._id.toString() != good.userId.toString()) {
+      return res.redirect('/goods');
+    }
+    await Good.deleteOne({_id: req.body.id});
+
+    res.redirect('/goods');  
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 module.exports = router;
