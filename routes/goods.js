@@ -20,7 +20,9 @@ router.get('/:id', async (req, res) => {
       title: `${good.name}`,
       good,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.redirect('/goods')
+  }
 });
 
 router.get('/:id/edit', guard, async (req, res) => {

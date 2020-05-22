@@ -1,10 +1,12 @@
 const { Router } = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const keys = require('../keys');
 const nodemailer = require('nodemailer');
 const sendgrid = require('nodemailer-sendgrid-transport');
 const regTemplate = require('../emails/reg');
+const resetTemplate = require('../emails/reset');
 
 const router = Router();
 
@@ -42,7 +44,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (user) {
-      const areSame = await bcrypt.compare(user.password, req.body.password);
+      const areSame = await bcrypt.compare(req.body.password, user.password);
 
       if (areSame) {
         req.session.user = user;
@@ -84,14 +86,91 @@ router.post('/register', async (req, res) => {
     });
     await user.save();
     await transporter.sendMail(regTemplate(email));
-    res.redirect('/');
+    req.session.user = user;
+    req.session.isAuthentificated = true;
+    req.session.save((err) => {
+      if (err) throw err;
+      res.redirect('/');
+    });
   } catch (error) {
     console.log('error', error);
   }
 });
 
-router.post('/reset-password', (req, res) => {
-  const user = User.findById(req.body.id);
+router.get('/reset', (req, res) => {
+  res.render('auth/reset', {
+    resetError: req.flash('reset-error')
+  });
+})
+
+router.post('/reset', (req, res) => {
+  try {
+    crypto.randomBytes(32, async (err, buffer) => {
+      if (err) {
+        req.flash(
+          'reset-error',
+          'Что-то пошло не так...'
+        );
+        res.redirect('/auth/reset');
+      }
+
+      const token = buffer.toString('hex');
+      const user = await User.findOne({email: req.body.email});
+
+      if (user) {
+        user.resetToken = token;
+        user.resetTokenExp = Date.now() + 3600;
+        await user.save();
+        await transporter.sendMail(resetTemplate(user.email, token));
+        res.redirect('/auth');
+      } else {
+        req.flash(
+          'reset-error',
+          'Пользователь с указанным e-mail не найден'
+        );
+        res.redirect('/auth/reset');
+      }
+    })
+  } catch (error) {
+    console.log('error', error);
+  }
+})
+
+router.get('/password/:token', async (req, res) => {
+  try {
+    if (!req.params.token) {
+      return res.redirect('/auth')
+    }
+
+    const user = await User.findOne({resetToken: req.params.token})
+    const isExp = Date.now() - user.resetTokenExp;
+
+    if (user && isExp) {
+      res.render('auth/password', {
+        title: 'Создание нового пароля',
+        userId: user._id,
+        token: req.params.token
+      });
+    } else {
+      res.redirect('/auth');
+    }
+  } catch (error) {
+    res.redirect('/auth');
+  }
+})
+
+router.post('/password', async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.body.userId, resetToken: req.body.token });
+    user.password = await bcrypt.hash(req.body.password, 10);
+    user.resetToken = undefined;
+    user.resetTokenExp = undefined;
+    await user.save();
+    console.log('user', user)
+    res.redirect('/auth')
+  } catch (error) {
+    req.flash('login-error', 'Токен просрочен');
+  }
 })
 
 module.exports = router;

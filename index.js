@@ -30,8 +30,8 @@ const hbs = expressHandlebars.create({
 
 const store = new MongoStore({
   collection: 'sessions',
-  uri: keys.MONGODB_URI
-})
+  uri: keys.MONGODB_URI,
+});
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
@@ -43,7 +43,7 @@ app.use(
     secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store
+    store,
   })
 );
 app.use(csrf());
@@ -56,6 +56,10 @@ app.use('/new-good', addRouter);
 app.use('/cart', cartRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
+
+app.use(function (req, res, next) {
+  res.status(404).render('errors/404');
+});
 
 async function start() {
   try {

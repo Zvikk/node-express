@@ -29,16 +29,21 @@
           <label for="password">Пароль</label>
           <span class="helper-text" data-error="Введите пароль"></span>
         </div>
+
+        <div class="input-field col s6">
+          <a href="/auth/reset" class="link">Забыли пароль?</a>
+        </div>
       </div>
 
       <input type="hidden" name="_csrf" value={{csrf}}>
-
+      
       <div class="row">
         <div class="col">
           <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Войти</button>
         </div>
       </div>
     </form>
+
   </div>
 
   <div id="register" class="col s6 offset-s3">
