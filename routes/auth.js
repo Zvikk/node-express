@@ -7,14 +7,18 @@ const nodemailer = require('nodemailer');
 const sendgrid = require('nodemailer-sendgrid-transport');
 const regTemplate = require('../emails/reg');
 const resetTemplate = require('../emails/reset');
+const { registerValidators } = require('../utils/validators');
+const { validationResult } = require('express-validator');
 
 const router = Router();
 
-const transporter = nodemailer.createTransport(sendgrid({
-  auth: {
-    api_key: keys.SENDGRID_API_KEY  
-  }
-}))
+const transporter = nodemailer.createTransport(
+  sendgrid({
+    auth: {
+      api_key: keys.SENDGRID_API_KEY,
+    },
+  })
+);
 
 const msg = {
   to: 'test@example.com',
@@ -25,11 +29,11 @@ const msg = {
 };
 
 router.get('/', async (req, res) => {
-
   res.render('auth/login', {
     title: 'Авторизация',
     loginError: req.flash('login-error'),
     registerError: req.flash('register-error'),
+    validationError: req.flash('validation-errors'),
   });
 });
 
@@ -55,7 +59,7 @@ router.post('/login', async (req, res) => {
         });
       } else {
         req.flash('login-error', 'Неверный пароль');
-        res.redirect('/auth#login');  
+        res.redirect('/auth#login');
       }
     } else {
       req.flash('login-error', 'Пользователь не найден');
@@ -64,9 +68,16 @@ router.post('/login', async (req, res) => {
   } catch (error) {}
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', registerValidators, async (req, res) => {
   try {
     const { remail: email, rpassword: password, name } = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      req.flash('validation-errors', errors.array());
+      return res.status(422).redirect('/auth#register')
+    }
     const candidate = await User.findOne({ email });
 
     if (candidate) {
@@ -99,23 +110,20 @@ router.post('/register', async (req, res) => {
 
 router.get('/reset', (req, res) => {
   res.render('auth/reset', {
-    resetError: req.flash('reset-error')
+    resetError: req.flash('reset-error'),
   });
-})
+});
 
 router.post('/reset', (req, res) => {
   try {
     crypto.randomBytes(32, async (err, buffer) => {
       if (err) {
-        req.flash(
-          'reset-error',
-          'Что-то пошло не так...'
-        );
+        req.flash('reset-error', 'Что-то пошло не так...');
         res.redirect('/auth/reset');
       }
 
       const token = buffer.toString('hex');
-      const user = await User.findOne({email: req.body.email});
+      const user = await User.findOne({ email: req.body.email });
 
       if (user) {
         user.resetToken = token;
@@ -124,32 +132,29 @@ router.post('/reset', (req, res) => {
         await transporter.sendMail(resetTemplate(user.email, token));
         res.redirect('/auth');
       } else {
-        req.flash(
-          'reset-error',
-          'Пользователь с указанным e-mail не найден'
-        );
+        req.flash('reset-error', 'Пользователь с указанным e-mail не найден');
         res.redirect('/auth/reset');
       }
-    })
+    });
   } catch (error) {
     console.log('error', error);
   }
-})
+});
 
 router.get('/password/:token', async (req, res) => {
   try {
     if (!req.params.token) {
-      return res.redirect('/auth')
+      return res.redirect('/auth');
     }
 
-    const user = await User.findOne({resetToken: req.params.token})
+    const user = await User.findOne({ resetToken: req.params.token });
     const isExp = Date.now() - user.resetTokenExp;
 
     if (user && isExp) {
       res.render('auth/password', {
         title: 'Создание нового пароля',
         userId: user._id,
-        token: req.params.token
+        token: req.params.token,
       });
     } else {
       res.redirect('/auth');
@@ -157,20 +162,23 @@ router.get('/password/:token', async (req, res) => {
   } catch (error) {
     res.redirect('/auth');
   }
-})
+});
 
 router.post('/password', async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.body.userId, resetToken: req.body.token });
+    const user = await User.findOne({
+      _id: req.body.userId,
+      resetToken: req.body.token,
+    });
     user.password = await bcrypt.hash(req.body.password, 10);
     user.resetToken = undefined;
     user.resetTokenExp = undefined;
     await user.save();
-    console.log('user', user)
-    res.redirect('/auth')
+    console.log('user', user);
+    res.redirect('/auth');
   } catch (error) {
     req.flash('login-error', 'Токен просрочен');
   }
-})
+});
 
 module.exports = router;

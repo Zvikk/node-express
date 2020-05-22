@@ -49,30 +49,42 @@
   <div id="register" class="col s6 offset-s3">
     <h1>Регистрация</h1>
     {{#if registerError}}
-    <div class="row">
-      <div class="col">
-        <p class="alert">
-          {{registerError}}
-        </p>
+      <div class="row">
+        <div class="col">
+          <pre class="alert">
+            {{registerError}}
+          </pre>
+        </div>
       </div>
-    </div>
+    {{/if}}
+
+    {{#if validationError}}
+      <div class="row">
+        <div class="col s12 errors">
+          {{#each validationError}}
+            <p class="alert">
+              {{this.msg}}
+            </p>
+          {{/each}}
+        </div>
+      </div>
     {{/if}}
     <form class="" action="/auth/register" method="POST">
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="Имя" name="name" id="name" type="text" class="validate" required>
+          <input placeholder="Имя" name="name" id="name" type="text" class="validate" value="{{name}}" required>
           <label for="name">Имя</label>
           <span class="helper-text" data-error="Введите имя"></span>
         </div>
 
         <div class="input-field col s6">
-          <input placeholder="example@mai.ru" name="remail" id="remail" type="text" class="validate" required>
+          <input placeholder="example@mai.ru" name="remail" id="remail" type="text" class="validate" value="{{remail}}" required>
           <label for="remail">E-mail</label>
           <span class="helper-text" data-error="Введите E-mail"></span>
         </div>
 
         <div class="input-field col s6">
-          <input placeholder="0" name="rpassword" id="rpassword" type="text" class="validate" required>
+          <input placeholder="0" name="rpassword" id="rpassword" type="text" class="validate" value="{{rpassword}}" required>
           <label for="rpassword">Пароль</label>
           <span class="helper-text" data-error="Введите пароль"></span>
         </div>

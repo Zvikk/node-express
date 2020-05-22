@@ -19,3 +19,9 @@
   margin-top: 20px;
   
 }
+
+.errors {
+  border-radius: 5px;
+  background-color: #ee6e73;
+  color: #ffffff;
+}
